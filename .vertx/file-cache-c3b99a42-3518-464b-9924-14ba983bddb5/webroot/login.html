@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/0.3.4/sockjs.min.js"></script>
+    <script   src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script src="http://localhost:8090" type="text/javascript"></script>
+    <script type="text/javascript">
+        var eb = new EventBus('http://localhost:8080/message');
+        eb.onopen = function() {
+            console.log ("Open");
+        };
+
+        eb.consumes("server-to-client", function (message) {
+            console.log('received a message: ' + message.body());
+        });
+
+        // publish a message
+        function send(message){
+            console.log("Sending Message "+message);
+            eb.send("client-to-server", message);
+        }
+    </script>
+
+</head>
+<body>
+    <button onclick="send('My Name is sachin')">Send</button>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="index.css" rel="stylesheet" type="text/css"/>
+    <!--<script src="js/core/sockjs.js" type="text/javascript"></script>-->
+    <script src="jquery-1.10.2.js" type="text/javascript"></script>
+    <script src="//cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
+    <script src="vertx-eventBus.js"></script>
+    <script>
+
+
+        var eb = new EventBus('http://localhost:8080/eventbus');
+
+        eb.onopen = function() {
+            console.log ("Open");
+        };
+
+        eb.registerHandler("some.address", function (message) {
+            console.log('received a message: ' + message.body());
+        });
+
+        // publish a message
+        function send(message){
+            console.log("Sending Message "+message);
+            eb.send("some.address", message);
+        }
+
+
+
+
+//         console.log("The socket is not open.");
+         }/* function simpleSockJs() {
+         var sock = new SockJS('http://localhost:8080/myapp');
+         sock.onopen = function () {
+         console.log('open');
+         };
+         sock.onmessage = function (e) {
+         console.log('message', e.data);
+         };
+         sock.onclose = function () {
+         console.log('close');
+         };
+         function send(message) {
+         if (sock.readyState === SockJS.OPEN) {
+         console.log("sending message");
+         sock.send(message);
+         } else {
+         }
+         }
+         }*/
+
+    </script>
+</head>
+<body>
+<h1>VChat</h1>
+<table>
+    <thead>
+    <th>From</th>
+    <th>Message</th>
+    </thead>
+    <tbody id="messageBody">
+
+    </tbody>
+
+</table>
+
+<form onsubmit="return false;">
+    <input type="text" name="message" value="Hello, World!"/>
+    <input type="button" value="Send SockJS data" onclick="send(this.form.message.value)"/>
+</form>
+
+
+<input type="text" name="message" placeholder="Message" id="mes"/>
+<button onclick="send()">Send</button>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="index.css" rel="stylesheet" type="text/css"/>
+    <script src="js/core/sockjs.js" type="text/javascript"></script>
+    <script src="js/jquery-1.10.2.js" type="text/javascript"></script>
+    <script>
+        function callServer(){
+            console.log("Method Invoked");
+            $.ajax({
+                type:"GET",
+                url:"http://localhost:8080/startChat",
+                data:{message:$("#mes").val()},
+                success:function(data){
+                    console.log(data);
+                    var mBody = $("#messageBody");
+                    $("#mes").val("");
+                    $(mBody).append($("<tr></tr>")).append($("<td>"+data+"</td>"));
+                },
+                error:function(err){
+                    console.log("error")
+                }
+
+            })
+        }
+    </script>
+</head>
+<body>
+    <h1>VChat</h1>
+    <table>
+        <thead>
+            <th>From</th>
+            <th>Message</th>
+        </thead>
+        <tbody id="messageBody">
+
+        </tbody>
+
+    </table>
+    <input type="text" name="message" placeholder="Message" id="mes"/>
+    <button onclick="callServer()">Send</button>
+</body>
+</html>

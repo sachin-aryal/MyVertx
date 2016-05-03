@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--<script src="jquery-webroot.10.2.js" type="text/javascript"></script>-->
+    <script src="sock-js.js"></script>
+    <script src="vertx-eventBus.js"></script>
+    <script type="text/javascript">
+        var sockJs = new SockJs("localhost:8080/login");
+        sock.onopen = function () {
+            console.log('open');
+        };
+        sock.onmessage = function (e) {
+            console.log('message', e.data);
+        };
+        sock.onclose = function () {
+            console.log('close');
+        };
+        function login() {
+            if (sock.readyState === SockJS.OPEN) {
+                console.log("sending message");
+                sock.send({username:$("uName").val(),password:$("pass").val()});
+            } else {
+                console.log("The socket is not open.");
+            }
+        }
+    </script>
+
+</head>
+<body>
+        <input type="text" name="username" id="uName" placeholder="Username">
+        <input type="text" name="password" id="pass" placeholder="Password">
+        <button onclick="login()">Login</button>
+</body>
+</html>

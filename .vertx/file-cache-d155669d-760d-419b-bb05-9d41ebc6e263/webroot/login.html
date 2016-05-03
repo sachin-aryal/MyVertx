@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/0.3.4/sockjs.min.js"></script>
+    <script   src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript">
+        var sock = new SockJS('http://localhost:8080/login');
+
+        sock.onopen = function () {
+            console.log('open');
+        };
+        sock.onmessage = function (e) {
+            console.log('message', e.data);
+        };
+        sock.onclose = function () {
+            console.log('close');
+        };
+        function login() {
+            if (sock.readyState === SockJS.OPEN) {
+                console.log("sending message");
+                sock.send({username:$("uName").val(),password:$("pass").val()});
+            } else {
+                console.log("The socket is not open.");
+            }
+        }
+    </script>
+    <!--9803646038-->
+
+</head>
+<body>
+<input type="text" name="username" id="uName" placeholder="Username">
+<input type="text" name="password" id="pass" placeholder="Password">
+<button onclick="login()">Login</button>
+</body>
+</html>
